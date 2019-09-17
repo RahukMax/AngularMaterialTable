@@ -1,0 +1,139 @@
+<div>
+<div class="search-div">
+    <button mat-raised-button (click)="openPopup()">
+      <mat-icon>add</mat-icon>Create
+    </button>
+    <mat-form-field class="search-form-field" floatLabel="never">
+      <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort (matSortChange)="sortData($event)" >
+
+      
+
+      <!--Check Box Column-->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="Name">
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+          </ng-container>
+      
+      <ng-container matColumnDef="Email">
+          <mat-header-cell *matHeaderCellDef  mat-sort-header>Email</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+        </ng-container>
+      
+      <ng-container matColumnDef="UserName">
+          <mat-header-cell *matHeaderCellDef  mat-sort-header>User Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
+        </ng-container>
+
+       <ng-container matColumnDef="Website">
+          <mat-header-cell *matHeaderCellDef  mat-sort-header>Website</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.website}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button mat-icon-button><mat-icon (click)="onEdit(row)">launch</mat-icon></button>
+              <button mat-icon-button color="warn"><mat-icon (click)="removeSelectedRows(row)">delete_outline</mat-icon></button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                Loading data...
+              </mat-footer-cell>
+            </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+
+    </mat-table>    
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+</div> 
+<button mat-raised-button color="primary">
+  Remove Selected Rows
+</button>
+</div>
+
+<!--For Adding the new Data-->
+<ng-template #addData>
+  <div class="example-container" >
+      <form class="my-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+          <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Input" [(ngModel)]="name" name="name">
+          </mat-form-field>
+      
+          <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Input" [(ngModel)]="email" name="email">
+          </mat-form-field>
+      
+          <mat-form-field>
+              <mat-label>User Name</mat-label>
+              <input matInput placeholder="Input" [(ngModel)]="username" name="username">
+          </mat-form-field>
+
+          <mat-form-field>
+                  <mat-label>Website</mat-label>
+              <input matInput placeholder="Input" [(ngModel)]="website" name="website">
+          </mat-form-field>
+          <button type="submit" >Add</button>
+  </form>
+  </div>
+</ng-template>
+
+
+<!--For Editing the Exting row-->
+
+<ng-template #editData>
+    <div class="example-container" >
+        <form class="my-form" (ngSubmit)="onEditData(f)" #f="ngForm">
+
+            <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Input" [(ngModel)]="name" name="name">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="email" name="email">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>User Name</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="username" name="username">
+            </mat-form-field>
+  
+            <mat-form-field>
+                    <mat-label>Website</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="website" name="website">
+            </mat-form-field>
+            <button type="submit" >Save Chanegs</button>
+    </form>
+    </div>
+  </ng-template>

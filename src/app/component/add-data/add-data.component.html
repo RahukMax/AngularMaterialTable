@@ -1,0 +1,24 @@
+<div class="example-container" *ngIf="">
+        <form class="my-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Input" [(ngModel)]="name" name="name">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="email" name="email">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>User Name</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="username" name="username">
+            </mat-form-field>
+
+            <mat-form-field>
+                    <mat-label>Website</mat-label>
+                <input matInput placeholder="Input" [(ngModel)]="website" name="website">
+            </mat-form-field>
+            <button type="submit" >Add</button>
+</form>
+  </div>
